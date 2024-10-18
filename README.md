@@ -1,6 +1,6 @@
 # command-run
 
-First, configure `.env.js`
+First, configure `env.js`
 
 ### Start command:
 
@@ -8,7 +8,7 @@ First, configure `.env.js`
 npm start
 ```
 
-### Payload url: (POST)
+### RHOST: (POST)
 
 https://epic-tarpon-definitely.ngrok-free.app/cmd
 
@@ -25,4 +25,4 @@ https://epic-tarpon-definitely.ngrok-free.app/cmd
 
 REST Client (extension)
 
-- `routes.http`
+- `ctrl/routes.http`
