@@ -1,18 +1,18 @@
 # command-run
 
-Start command:
+First, configure `.env.js`
+
+### Start command:
 
 ```bash
 npm start
 ```
 
-Payload url: (POST)
+### Payload url: (POST)
 
-```bash
-http://{localIp}:4444/run
-```
+https://epic-tarpon-definitely.ngrok-free.app/cmd
 
-## Keys
+### Keys
 
 ```json
 {
@@ -20,3 +20,9 @@ http://{localIp}:4444/run
   "cwd": ""
 }
 ```
+
+### Control
+
+REST Client (extension)
+
+- `routes.http`
