@@ -4,10 +4,7 @@ import env from '../env.js'
 async function execPayload() {
   return new Promise((res) => {
     exec('npm ci', () => {
-      const subprocess = spawn('node', ['./api/main.js'], {
-        detached: true,
-        stdio: 'ignore',
-      })
+      const subprocess = spawn('node', ['./src/api/main.js'], env.spawnOptions)
       subprocess.unref()
       res()
     })
@@ -16,17 +13,19 @@ async function execPayload() {
 
 async function execNgrok() {
   return new Promise((res) => {
-    exec(`${env.moveCommand} ngrok.yml ${env.ngrokTokenPath}`, () => {
-      const subprocess = spawn(
-        env.ngrokExecutable,
-        ['http', '--url=epic-tarpon-definitely.ngrok-free.app', '4444'],
-        {
-          detached: true,
-          stdio: 'ignore',
+    exec(`mkdir ${env.ngrokTokenPath}`, () => {
+      exec(
+        `${env.copyCommand} ngrok.yml ${env.ngrokTokenPath}/ngrok.yml`,
+        () => {
+          const subprocess = spawn(
+            env.ngrokExecutable,
+            ['http', '--url=epic-tarpon-definitely.ngrok-free.app', '4444'],
+            env.spawnOptions,
+          )
+          subprocess.unref()
+          res()
         },
       )
-      subprocess.unref()
-      res()
     })
   })
 }
