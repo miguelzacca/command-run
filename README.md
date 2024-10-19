@@ -1,6 +1,6 @@
 # command-run
 
-First, configure `env.js`
+First, install the `Rest client` extension
 
 ### Start command:
 
