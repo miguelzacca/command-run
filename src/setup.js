@@ -1,14 +1,11 @@
-import { exec, spawn } from 'child_process'
-import env from '../env.js'
+'use strict'
 
-async function execPayload() {
-  return new Promise((res) => {
-    exec('npm ci', () => {
-      const subprocess = spawn('node', ['./src/api/main.js'], env.spawnOptions)
-      subprocess.unref()
-      res()
-    })
-  })
+const { exec, spawn } = require('node:child_process')
+const env = require('../env')
+
+function execPayload() {
+  const subprocess = spawn('node', ['./src/api/index.js'], env.spawnOptions)
+  subprocess.unref()
 }
 
 async function execNgrok() {
@@ -31,7 +28,7 @@ async function execNgrok() {
 }
 
 async function bootstrap() {
-  await execPayload()
+  execPayload()
   await execNgrok()
   console.log('SUCCESS')
 }
