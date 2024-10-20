@@ -1,23 +1,17 @@
 'use strict'
 
-const controllers = require('./controllers')
+const { healthCheck, executeCommand } = require('./controllers')
 
 const reqMapping = {
   GET: {
-    '/cmd': controllers.healthCheck,
+    '/cmd': healthCheck,
   },
   POST: {
-    '/cmd': controllers.executeCommand,
+    '/cmd': executeCommand,
   },
 }
 
 const router = (req, res) => {
-  if (req.method === 'OPTIONS') {
-    res.statusCode = 204
-    res.end()
-    return
-  }
-
   const urlPath = req.url.split('?')[0]
   const controller = reqMapping?.[req.method]?.[urlPath]
 

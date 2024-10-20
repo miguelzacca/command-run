@@ -1,6 +1,6 @@
 'use strict'
 
-const { extractBody } = require('./utils')
+const { extractBody, handleError } = require('./utils')
 const { exec } = require('node:child_process')
 
 const healthCheck = async (req, res) => {
@@ -9,16 +9,22 @@ const healthCheck = async (req, res) => {
 }
 
 const executeCommand = async (req, res) => {
-  const { command, cwd } = await extractBody(req)
+  try {
+    const { command, cwd } = await extractBody(req)
 
-  if (!command) {
-    return
+    if (!command) {
+      res.statusCode = 400
+      res.end('Missing command')
+      return
+    }
+
+    exec(command, { cwd: cwd || undefined }, (err, stdout, stderr) => {
+      res.statusCode = 200
+      res.end(JSON.stringify({ err, stdout, stderr }))
+    })
+  } catch (e) {
+    handleError(res, e)
   }
-
-  exec(command, { cwd: cwd || undefined }, (err, stdout, stderr) => {
-    res.statusCode = 200
-    res.end(JSON.stringify({ err, stdout, stderr }))
-  })
 }
 
 module.exports = { executeCommand, healthCheck }
